@@ -3,6 +3,7 @@ package syam.PistonJump;
 import java.util.logging.Logger;
 
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -15,6 +16,9 @@ public class PistonJump extends JavaPlugin{
 	public final static String logPrefix = "[PistonJump] ";
 	public final static String msgPrefix = "&c[PistonJump] &f";
 
+	// Listener
+	private final BlockListener blockListener = new BlockListener(this);
+
 	// Instance
 	private static PistonJump instance;
 
@@ -24,6 +28,11 @@ public class PistonJump extends JavaPlugin{
 	 */
 	public void onEnable(){
 		instance = this;
+
+		// イベントを登録
+		PluginManager pm = getServer().getPluginManager();
+		pm.registerEvents(blockListener, this);
+
 		// メッセージ表示
 		PluginDescriptionFile pdfFile=this.getDescription();
 		log.info("["+pdfFile.getName()+"] version "+pdfFile.getVersion()+" is enabled!");
