@@ -1,0 +1,8 @@
+##  Plugin Information  ##
+name: PistonJump
+version: 0.1
+main: syam.PistonJump.PistonJump
+description: PistonJump for SakuraServer
+website: http://sakura-server.net/
+##  Original Author     ##
+author: syam
