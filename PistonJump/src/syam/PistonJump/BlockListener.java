@@ -61,6 +61,11 @@ public class BlockListener implements Listener {
 						continue;
 					}
 
+					// 権限で弾く
+					if (!player.hasPermission("pistonjump.jump")){
+						continue;
+					}
+
 					// プレイヤーのベクトルを初期値に
 					Vector dir = player.getVelocity();
 					Vector vect = new Vector(dir.getX() * 3.0D, flyVector, dir.getZ() * 3.0D);
