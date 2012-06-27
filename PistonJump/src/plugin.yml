@@ -5,8 +5,16 @@ main: syam.PistonJump.PistonJump
 description: Jump higher on the piston!
 website: http://sakura-server.net/
 ##  Original Author     ##
-author: syam
+author: syamn
+commands:
+    pistonjump:
+      usage: /pistonjump - to see the help
+      aliases: [pj, piston]
+      description: To see the PistonJump help.
 permissions:
     pistonjump.jump:
         default: op
         description: Can jump higher on the piston!
+    pistonjump.reload:
+        default: op
+        description: Can reload configuration!

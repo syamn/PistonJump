@@ -49,6 +49,9 @@ public class PistonJump extends JavaPlugin{
 		// イベントを登録
 		pm.registerEvents(blockListener, this);
 
+		// コマンド登録
+		getServer().getPluginCommand("pistonjump").setExecutor(new PJCommand(this));
+
 		// メッセージ表示
 		PluginDescriptionFile pdfFile=this.getDescription();
 		log.info("["+pdfFile.getName()+"] version "+pdfFile.getVersion()+" is enabled!");
