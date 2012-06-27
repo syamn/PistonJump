@@ -57,12 +57,14 @@ public class BlockListener implements Listener {
 					}
 					// ピストンに押されたブロックの座標とプレイヤーの座標を計算
 					double distance = playerLoc.distance(headBlockLoc);
+
+					// ピストンの上に居ることの
 					if (distance >= 1.0){
 						continue;
 					}
 
-					// 権限で弾く
-					if (!player.hasPermission("pistonjump.jump")){
+					// 権限チェック
+					if (!plugin.getConfigs().ignorePermission && !player.hasPermission("pistonjump.jump")){
 						continue;
 					}
 

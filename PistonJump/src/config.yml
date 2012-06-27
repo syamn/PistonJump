@@ -1,0 +1,9 @@
+# PistonJump Configuration file for version 0.3
+# @author syam <admin@sakura-server.net>
+# BukkitDev: http://dev.bukkit.org/server-mods/pistonjump/
+
+#==================#
+#   Basic Config   #
+#==================#
+# Ignore Permissions (pistonjump.jump: true)
+IgnorePermission: false

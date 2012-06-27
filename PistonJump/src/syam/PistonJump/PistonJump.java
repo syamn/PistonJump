@@ -19,6 +19,9 @@ public class PistonJump extends JavaPlugin{
 	// Listener
 	private final BlockListener blockListener = new BlockListener(this);
 
+	// Private classes
+	private ConfigurationManager config;
+
 	// Instance
 	private static PistonJump instance;
 
@@ -28,9 +31,18 @@ public class PistonJump extends JavaPlugin{
 	 */
 	public void onEnable(){
 		instance = this;
+		config = new ConfigurationManager(this);
+		PluginManager pm = getServer().getPluginManager();
+
+		// 設定読み込み
+		try{
+			config.loadConfig(true);
+		}catch(Exception ex){
+			log.warning(logPrefix+ "an error occured while trying to load the config file.");
+			ex.printStackTrace();
+		}
 
 		// イベントを登録
-		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(blockListener, this);
 
 		// メッセージ表示
@@ -45,6 +57,14 @@ public class PistonJump extends JavaPlugin{
 		// メッセージ表示
 		PluginDescriptionFile pdfFile=this.getDescription();
 		log.info("["+pdfFile.getName()+"] version "+pdfFile.getVersion()+" is disabled!");
+	}
+
+	/**
+	 * 設定マネージャを返す
+	 * @return ConfigurationManager
+	 */
+	public ConfigurationManager getConfigs(){
+		return config;
 	}
 
 	/**
