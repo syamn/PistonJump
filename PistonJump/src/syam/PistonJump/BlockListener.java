@@ -51,69 +51,64 @@ public class BlockListener implements Listener {
 				return;
 			}
 
-			/* 上向きのピストンの場合 */
-			if (direction == BlockFace.UP){
-				// add(0.5, 0.0, 0.5) は上向きの場合？
-				Location headBlockLoc = headBlock.getLocation().add(0.5, 0.0, 0.5);
 
-				// オンラインプレイヤーを走査
-				for (Player player : Bukkit.getServer().getOnlinePlayers()){
-					Location playerLoc = player.getLocation();
+			// add(0.5, 0.0, 0.5) は上向きの場合？
+			Location headBlockLoc = headBlock.getLocation().add(0.5, 0.0, 0.5);
 
-					if (playerLoc.getWorld() != headBlockLoc.getWorld()){
-						continue;
-					}
-					// ピストンに押されたブロックの座標とプレイヤーの座標を計算
-					double distance = playerLoc.distance(headBlockLoc);
+			// オンラインプレイヤーを走査
+			for (Player player : Bukkit.getServer().getOnlinePlayers()){
+				Location playerLoc = player.getLocation();
 
-					// ピストンの上に居ることの
-					if (distance >= 1.0){
-						continue;
-					}
-
-					// 権限チェック
-					if (!plugin.getConfigs().ignorePermission && !player.hasPermission("pistonjump.jump")){
-						continue;
-					}
-
-					// プレイヤーのベクトルを飛ばすためのベクトル初期値に
-					Vector dir = player.getVelocity();
-					Vector vect = null;
-
-					// ピストンの方向によってベクトルを分ける
-					if (direction == BlockFace.UP){
-						// 上方向
-						vect = new Vector(dir.getX() * 3.0D, flyVector, dir.getZ() * 3.0D);
-					}else if (direction == BlockFace.EAST){
-						// 東向き→実際には北向き？ Z軸を負に
-						vect = new Vector(0.0D * sideMultiply, 0, -2.0D * sideMultiply);
-					}else if(direction == BlockFace.WEST){
-						// 西向き→実際には南 Z軸を正に
-						vect = new Vector(0.0D * sideMultiply, 0, 2.0D * sideMultiply);
-					}else if(direction == BlockFace.SOUTH){
-						// 南向き→東 X軸を正に
-						vect = new Vector(2.0D * sideMultiply, 0, 0.0D * sideMultiply);
-					}else if(direction == BlockFace.NORTH){
-						// 北向き→西 X軸を負に
-						vect = new Vector(-2.0D * sideMultiply, 0, 0.0D * sideMultiply);
-					}
-
-					// 上手く飛ぶようにプレイヤーを浮かす
-					player.teleport(playerLoc.add(0, 0.5, 0));
-					player.setVelocity(vect); // 飛ばす
-
-					// 落下死対策
-					/*
-					if (player.hasPotionEffect(PotionEffectType.JUMP))
-						player.removePotionEffect(PotionEffectType.JUMP);
-					player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, potionDurationInSec * 20, 0));
-
-					Actions.message(null, player, "Fly!");*/
+				if (playerLoc.getWorld() != headBlockLoc.getWorld()){
+					continue;
 				}
+				// ピストンに押されたブロックの座標とプレイヤーの座標を計算
+				double distance = playerLoc.distance(headBlockLoc);
+
+				// ピストンの上に居ることの
+				if (distance >= 1.0){
+					continue;
+				}
+
+				// 権限チェック
+				if (!plugin.getConfigs().ignorePermission && !player.hasPermission("pistonjump.jump")){
+					continue;
+				}
+
+				// プレイヤーのベクトルを飛ばすためのベクトル初期値に
+				Vector dir = player.getVelocity();
+				Vector vect = null;
+
+				// ピストンの方向によってベクトルを分ける
+				if (direction == BlockFace.UP){
+					// 上方向
+					vect = new Vector(dir.getX() * 3.0D, flyVector, dir.getZ() * 3.0D);
+				}else if (direction == BlockFace.EAST){
+					// 東向き→実際には北向き？ Z軸を負に
+					vect = new Vector(0.0D * sideMultiply, 0, -2.0D * sideMultiply);
+				}else if(direction == BlockFace.WEST){
+					// 西向き→実際には南 Z軸を正に
+					vect = new Vector(0.0D * sideMultiply, 0, 2.0D * sideMultiply);
+				}else if(direction == BlockFace.SOUTH){
+					// 南向き→東 X軸を正に
+					vect = new Vector(2.0D * sideMultiply, 0, 0.0D * sideMultiply);
+				}else if(direction == BlockFace.NORTH){
+					// 北向き→西 X軸を負に
+					vect = new Vector(-2.0D * sideMultiply, 0, 0.0D * sideMultiply);
+				}
+
+				// 上手く飛ぶようにプレイヤーを浮かす
+				player.teleport(playerLoc.add(0, 0.5, 0));
+				player.setVelocity(vect); // 飛ばす
+
+				// 落下死対策
+				/*
+				if (player.hasPotionEffect(PotionEffectType.JUMP))
+					player.removePotionEffect(PotionEffectType.JUMP);
+				player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, potionDurationInSec * 20, 0));
+
+				Actions.message(null, player, "Fly!");*/
 			}
-
-			/* 横向きのピストンの場合 */
-
 		}
 	}
 }
