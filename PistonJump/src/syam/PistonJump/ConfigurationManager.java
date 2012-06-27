@@ -26,6 +26,7 @@ public class ConfigurationManager {
 	// 設定項目
 	/* Basic Configs */
 	public boolean ignorePermission = new Boolean(false);
+	public boolean enableSidewaysPiston = new Boolean(true);
 
 	// 設定ここまで
 
@@ -75,7 +76,7 @@ public class ConfigurationManager {
 		// 項目取得
 		/* Basic Config */
 		ignorePermission = plugin.getConfig().getBoolean("IgnorePermission", false);
-
+		enableSidewaysPiston = plugin.getConfig().getBoolean("EnableSidewaysPiston", true);
 	}
 
 	/**

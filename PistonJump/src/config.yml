@@ -7,3 +7,5 @@
 #==================#
 # Ignore Permissions (pistonjump.jump: true)
 IgnorePermission: false
+# Enable sideways Pistons
+EnableSidewaysPiston: true
