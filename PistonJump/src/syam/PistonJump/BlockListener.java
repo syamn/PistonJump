@@ -85,16 +85,16 @@ public class BlockListener implements Listener {
 					vect = new Vector(dir.getX() * 3.0D, flyVector, dir.getZ() * 3.0D);
 				}else if (direction == BlockFace.EAST){
 					// 東向き→実際には北向き？ Z軸を負に
-					vect = new Vector(0.0D * sideMultiply, 0, -2.0D * sideMultiply);
+					vect = new Vector(0.0D * sideMultiply, 0, -3.0D * sideMultiply);
 				}else if(direction == BlockFace.WEST){
 					// 西向き→実際には南 Z軸を正に
-					vect = new Vector(0.0D * sideMultiply, 0, 2.0D * sideMultiply);
+					vect = new Vector(0.0D * sideMultiply, 0, 3.0D * sideMultiply);
 				}else if(direction == BlockFace.SOUTH){
 					// 南向き→東 X軸を正に
-					vect = new Vector(2.0D * sideMultiply, 0, 0.0D * sideMultiply);
+					vect = new Vector(3.0D * sideMultiply, 0, 0.0D * sideMultiply);
 				}else if(direction == BlockFace.NORTH){
 					// 北向き→西 X軸を負に
-					vect = new Vector(-2.0D * sideMultiply, 0, 0.0D * sideMultiply);
+					vect = new Vector(-3.0D * sideMultiply, 0, 0.0D * sideMultiply);
 				}
 
 				// 上手く飛ぶようにプレイヤーを浮かす

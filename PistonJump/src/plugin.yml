@@ -5,7 +5,7 @@ main: syam.PistonJump.PistonJump
 description: Jump higher on the piston!
 website: http://sakura-server.net/
 ##  Original Author     ##
-author: syamn
+author: syam
 commands:
     pistonjump:
       usage: /pistonjump - to see the help
