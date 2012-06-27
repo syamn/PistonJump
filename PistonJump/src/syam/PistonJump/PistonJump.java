@@ -1,5 +1,6 @@
 package syam.PistonJump;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -34,6 +35,9 @@ public class PistonJump extends JavaPlugin{
 		config = new ConfigurationManager(this);
 		PluginManager pm = getServer().getPluginManager();
 
+		// Setup Metrics
+		setupMetrics();
+
 		// 設定読み込み
 		try{
 			config.loadConfig(true);
@@ -57,6 +61,19 @@ public class PistonJump extends JavaPlugin{
 		// メッセージ表示
 		PluginDescriptionFile pdfFile=this.getDescription();
 		log.info("["+pdfFile.getName()+"] version "+pdfFile.getVersion()+" is disabled!");
+	}
+
+	/**
+	 * Metricsセットアップ
+	 */
+	public void setupMetrics(){
+		try {
+		    Metrics metrics = new Metrics(this);
+		    metrics.start();
+		} catch (IOException ex) {
+			log.warning("cant send metrics data!");
+		    ex.printStackTrace();
+		}
 	}
 
 	/**

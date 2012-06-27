@@ -1,6 +1,6 @@
 ##  Plugin Information  ##
 name: PistonJump
-version: 0.2
+version: 0.3
 main: syam.PistonJump.PistonJump
 description: Jump higher on the piston!
 website: http://sakura-server.net/
