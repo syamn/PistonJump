@@ -2,11 +2,20 @@ package syam.PistonJump;
 
 import java.util.logging.Logger;
 
+import net.minecraft.server.EntityFallingBlock;
+import net.minecraft.server.Packet51MapChunk;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.FallingSand;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -110,5 +119,53 @@ public class BlockListener implements Listener {
 				Actions.message(null, player, "Fly!");*/
 			}
 		}
+		/*
+		// 押した先のブロックが砂(12:SAND)の場合
+		//else if (headBlock.getType() == Material.SAND){
+			// 上向きのピストンのみ対応
+			if (direction == BlockFace.UP){
+				// スポーンさせる座標
+				Location loc = headBlock.getLocation().clone().add(0.5D, 30.0D, 0.5D); // Y=1.5だと丁度着地済みになるためエンティティ化しない
+
+				// エンティティ化
+				/*
+				 * MEMO: 12/06/27現在、Bukkitのバグで通常通り砂、砂岩のエンティティをスポーンさせることができない → CraftBukkitを使う
+				 *
+				 * FallingSand fSand = headBlock.getWorld().spawn(headBlock.getLocation().clone().add(0.5D, 0.5D, 0.5D), FallingSand.class);
+				 * Exception: Caused by: java.lang.IllegalArgumentException: Don't know how to add class net.minecraft.server.EntityFallingBlock!
+				 *//*
+
+				Entity fSand = null;
+
+				// CraftBukkit Start
+				net.minecraft.server.World cWorld = ((CraftWorld)headBlock.getWorld()).getHandle();
+				EntityFallingBlock cSand = new EntityFallingBlock(cWorld, loc.getX(), loc.getY(), loc.getZ(), 12, cWorld.getData(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
+				headBlock.setType(Material.AIR); // Non-CraftBukkit
+				cWorld.addEntity(cSand);
+				cSand.getBukkitEntity().setVelocity(cSand.getBukkitEntity().getVelocity().setY(3.0D)); // 飛ばす
+				// CraftBukkit End
+
+				//event.getBlocks().get(0).setType(Material.AIR);
+
+				// ベクトル設定
+				//Vector vect = new Vector(0.0D, 3.0D, 0.0D);
+
+				//fSand.setVelocity(vect);
+
+				// チャンク情報を再送信してみる？
+//				Block upBlock = headBlock.getRelative(BlockFace.UP, 1);
+//				for (Player p : headBlock.getWorld().getPlayers()){
+//					if(p.getLocation().distance(headBlock.getLocation()) < 50){
+//						((CraftPlayer)p).getHandle().netServerHandler.sendPacket(
+//								new Packet51MapChunk()
+//							)
+//					}
+//				}
+			}
+		}// 砂利(13:GRAVEL)の場合
+		else if (headBlock.getType() == Material.GRAVEL){
+
+		}
+		*/
 	}
 }
