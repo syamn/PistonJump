@@ -80,6 +80,11 @@ public class BlockListener implements Listener {
 				return;
 			}
 
+			// 8.0オーバーチェック
+			if (flyVector > 8.0D){
+				flyVector = 8.0D;
+			}
+
 			// add(0.5, 0.0, 0.5) は上向きの場合？
 			Location headBlockLoc = headBlock.getLocation().add(0.5, 0.0, 0.5);
 
