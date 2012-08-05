@@ -2,17 +2,19 @@ package syam.PistonJump;
 
 import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.channels.FileChannel;
 import java.util.logging.Logger;
 
 import org.bukkit.configuration.file.FileConfiguration;
-
 
 /*     Copyright (C) 2012  syamn <admin@sakura-server.net>
  *
@@ -36,7 +38,7 @@ public class ConfigurationManager {
 	public final static String msgPrefix = PistonJump.msgPrefix;
 
 	private PistonJump plugin;
-	private FileConfiguration conf;
+	//private FileConfiguration conf;
 
 	private static File pluginDir = new File("plugins", "PistonJump");
 
@@ -90,10 +92,48 @@ public class ConfigurationManager {
 
 		plugin.reloadConfig();
 
+		// 先にバージョンチェック
+		double version = plugin.getConfig().getDouble("version", 0.1D);
+		checkver(version);
+
 		// 項目取得
 		/* Basic Config */
 		ignorePermission = plugin.getConfig().getBoolean("IgnorePermission", false);
 		enableSidewaysPiston = plugin.getConfig().getBoolean("EnableSidewaysPiston", true);
+	}
+
+	/**
+	 * 設定ファイルのバージョンをチェックする
+	 * @param ver
+	 */
+	private void checkver(final double ver){
+		double configVersion = ver;
+		double nowVersion = 0.1D;
+		try{
+			nowVersion = Double.parseDouble(plugin.getDescription().getVersion());
+		}catch (NumberFormatException ex){
+			log.warning(logPrefix+ "Cannot parse version string!");
+		}
+
+		// 比較 設定ファイルのバージョンが古ければ config.yml を上書きする
+		if (configVersion < nowVersion){
+			// 先に古い設定ファイルをリネームする
+			String destName = "oldconfig-v"+configVersion+".yml";
+			String srcPath = new File(pluginDir, "config.yml").getPath();
+			String destPath = new File(pluginDir, destName).getPath();
+			try{
+				copyTransfer(srcPath, destPath);
+				log.info(logPrefix+ "Copied old config.yml to "+destName+"!");
+			}catch(Exception ex){
+				log.warning(logPrefix+ "Cannot copy old config.yml!");
+			}
+
+			// config.ymlを強制コピー
+			extractResource("/config.yml", pluginDir, true, false);
+
+			log.info(logPrefix+ "Deleted existing configuration file and generate a new one!");
+		}
+
 	}
 
 	/**
@@ -190,6 +230,25 @@ public class ConfigurationManager {
 				if (writer != null)
 					writer.close();
 			}catch (Exception ex){}
+		}
+	}
+
+	/**
+	 * コピー元のパス[srcPath]から、コピー先のパス[destPath]へファイルのコピーを行います。
+	 * コピー処理にはFileChannel#transferToメソッドを利用します。
+	 * コピー処理終了後、入力・出力のチャネルをクローズします。
+	 * @param srcPath コピー元のパス
+	 * @param destPath  コピー先のパス
+	 * @throws IOException 何らかの入出力処理例外が発生した場合
+	 */
+	public static void copyTransfer(String srcPath, String destPath) throws IOException {
+		FileChannel srcChannel = new FileInputStream(srcPath).getChannel();
+		FileChannel destChannel = new FileOutputStream(destPath).getChannel();
+		try {
+		    srcChannel.transferTo(0, srcChannel.size(), destChannel);
+		} finally {
+		    srcChannel.close();
+		    destChannel.close();
 		}
 	}
 
