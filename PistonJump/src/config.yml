@@ -9,8 +9,10 @@
 IgnorePermission: false
 # Enable sideways Pistons
 EnableSidewaysPiston: true
-# Check under Sign
-CheckUnderSign: true
+# If it is false, ignore the sign under the piston.
+CheckSign: true
+# It's default injection power. If set to 0, must use the sign to jump.
+DefaultPower: 3.0
 
 #==================#
 #   DO NOT TOUCH   #

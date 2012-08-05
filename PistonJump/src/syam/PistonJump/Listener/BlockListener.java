@@ -59,8 +59,8 @@ public class BlockListener implements Listener {
 
 		// 押した先のブロックが空気(0:AIR)の場合
 		if (headBlock.getType() == Material.AIR){
-			double flyVector = 3.0D; // 飛ばす強さ(Y軸方向のベクトル) 真下の看板によって変更されない場合はこの値
-			double sideMultiply = 1.0D; // 横方向へ飛ばす強さ(XZ軸方向のベクトルへ掛ける) 変更されない場合は1.0倍
+			double flyVector = plugin.getConfigs().defaultPower; // 飛ばす強さ(Y軸方向のベクトル) 真下の看板によって変更されない場合はこの値
+			//double sideMultiply = 1.0D; // 横方向へ飛ばす強さ(XZ軸方向のベクトルへ掛ける) 変更されない場合は1.0倍
 
 			// 落下死対策のジャンプポーション効果時間(sec)
 			//int potionDurationInSec = 6;
@@ -71,13 +71,13 @@ public class BlockListener implements Listener {
 			}
 
 			// 設定が有効ならば真下の看板をチェックする
-			if (plugin.getConfigs().checkUnderSign && Actions.checkUnderSign(block) >= 0.0D){
+			if (plugin.getConfigs().checkSign && Actions.checkUnderSign(block) >= 0.0D){
 				flyVector = Actions.checkUnderSign(block);
+			}
 
-				// 設定がゼロなら飛ばさない
-				if (flyVector <= 0.0D){
-					return;
-				}
+			// 設定がゼロなら飛ばさない
+			if (flyVector <= 0.0D){
+				return;
 			}
 
 			// add(0.5, 0.0, 0.5) は上向きの場合？
@@ -225,7 +225,8 @@ public class BlockListener implements Listener {
 					}else{
 						Double line2d = Double.parseDouble(line2s);
 						if (line2d < 0.0D){
-							Actions.message(null, player, "&cThe 2nd numeric cannot be negative!"); err = true;
+							Actions.message(null, player, "&cThe 2nd numeric cannot be negative! Changed to 0.0!");
+							event.setLine(1, "0.0");
 						}else if(line2d > 8.0D){
 							Actions.message(null, player, "&cThe 2nd value is too big! Changed to max value!");
 							event.setLine(1, "8.0");
