@@ -7,14 +7,19 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.util.Vector;
 
 import syam.PistonJump.PistonJump;
+import syam.PistonJump.Util.Actions;
+import syam.PistonJump.Util.Util;
 
 /*     Copyright (C) 2012  syamn <admin@sakura-server.net>
  *
@@ -47,7 +52,7 @@ public class BlockListener implements Listener {
 
 	// ピストンが展開した
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-	public void onBlockPistonExtend(BlockPistonExtendEvent event){
+	public void onBlockPistonExtend(final BlockPistonExtendEvent event){
 		Block block = event.getBlock();
 		BlockFace direction = event.getDirection();
 		Block headBlock = block.getRelative(direction, 1); // ピストンが押された位置にあるブロック
@@ -65,14 +70,24 @@ public class BlockListener implements Listener {
 				return;
 			}
 
+			// 設定が有効ならば真下の看板をチェックする
+			if (plugin.getConfigs().checkUnderSign && Actions.checkUnderSign(block) >= 0.0D){
+				flyVector = Actions.checkUnderSign(block);
+
+				// 設定がゼロなら飛ばさない
+				if (flyVector <= 0.0D){
+					return;
+				}
+			}
 
 			// add(0.5, 0.0, 0.5) は上向きの場合？
 			Location headBlockLoc = headBlock.getLocation().add(0.5, 0.0, 0.5);
 
 			// オンラインプレイヤーを走査
 			for (Player player : Bukkit.getServer().getOnlinePlayers()){
-				Location playerLoc = player.getLocation();
 
+				// 別ワールドを除外
+				Location playerLoc = player.getLocation();
 				if (playerLoc.getWorld() != headBlockLoc.getWorld()){
 					continue;
 				}
@@ -93,6 +108,7 @@ public class BlockListener implements Listener {
 				Vector vect = null;
 
 				// ピストンの方向によってベクトルを分ける
+				/*
 				if (direction == BlockFace.UP) // 上方向
 					vect = new Vector(dir.getX() * 3.0D, flyVector, dir.getZ() * 3.0D);
 				else if (direction == BlockFace.EAST) // 東向き→実際には北向き？ Z軸を負に
@@ -103,6 +119,17 @@ public class BlockListener implements Listener {
 					vect = new Vector(3.0D * sideMultiply, 0, 0.0D * sideMultiply);
 				else if(direction == BlockFace.NORTH) // 北向き→西 X軸を負に
 					vect = new Vector(-3.0D * sideMultiply, 0, 0.0D * sideMultiply);
+				*/
+				if (direction == BlockFace.UP) // 上方向
+					vect = new Vector(dir.getX() * 3.0D, flyVector, dir.getZ() * 3.0D);
+				else if (direction == BlockFace.EAST) // 東向き→実際には北向き？ Z軸を負に
+					vect = new Vector(0, 0, -flyVector);
+				else if(direction == BlockFace.WEST) // 西向き→実際には南 Z軸を正に
+					vect = new Vector(0, 0, flyVector);
+				else if(direction == BlockFace.SOUTH) // 南向き→東 X軸を正に
+					vect = new Vector(flyVector, 0, 0);
+				else if(direction == BlockFace.NORTH) // 北向き→西 X軸を負に
+					vect = new Vector(-flyVector, 0, 0);
 
 
 				// 上手く飛ぶようにプレイヤーを浮かす
@@ -166,5 +193,53 @@ public class BlockListener implements Listener {
 
 		}
 		*/
+	}
+
+	// 看板を設置した
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	public void onSignChange(final SignChangeEvent event){
+		Player player = event.getPlayer();
+		Block block = event.getBlock();
+		BlockState state = event.getBlock().getState();
+
+		if (state instanceof Sign){
+			Sign sign = (Sign)state;
+
+			/* [PistonJump] 特殊看板 */
+
+			if (event.getLine(0).toLowerCase().indexOf("[pistonjump]") != -1){
+				// 権限チェック
+				if (!player.hasPermission("pistonjump.placesign")){
+					event.setLine(0, "§c[PistonJump]");
+					event.setLine(1, "Perm Denied :(");
+					Actions.message(null, player, "&cYou don't have permission to use this!");
+					return;
+				}
+				// 権限あり 入力内容チェック
+				else{
+					boolean err = false; // エラーフラグ
+
+					String line2s = event.getLine(1).trim();
+					if (!Util.isDouble(line2s)){
+						Actions.message(null, player, "&cThe 2nd line must be numeric (double)!"); err = true;
+					}else{
+						Double line2d = Double.parseDouble(line2s);
+						if (line2d < 0.0D){
+							Actions.message(null, player, "&cThe 2nd numeric cannot be negative!"); err = true;
+						}else if(line2d > 8.0D){
+							Actions.message(null, player, "&cThe 2nd value is too big! Changed to max value!");
+							event.setLine(1, "8.0");
+						}
+					}
+
+					// 1行目の文字色
+					if (err){
+						event.setLine(0, "§c[PistonJump]");
+					}else{
+						event.setLine(0, "§a[PistonJump]");
+					}
+				}
+			}
+		}
 	}
 }

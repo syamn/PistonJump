@@ -15,6 +15,9 @@ permissions:
     pistonjump.jump:
         default: op
         description: Can jump higher on the piston!
+    pistonjump.placesign:
+        default: op
+        description: Can place PistonJump sign!
     pistonjump.reload:
         default: op
         description: Can reload configuration!

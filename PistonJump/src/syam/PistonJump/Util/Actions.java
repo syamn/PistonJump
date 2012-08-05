@@ -218,6 +218,10 @@ public class Actions {
 					if (d < 0.0D){ // 負数は0に設定して飛ばさない
 						d = 0.0D;
 					}
+					else if (d > 8.0D){ // 8.0以上は8.0に戻す
+						d = 8.0D;
+					}
+
 
 					// チェックおわり
 					return d;
