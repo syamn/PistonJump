@@ -9,6 +9,8 @@
 IgnorePermission: false
 # Enable sideways Pistons
 EnableSidewaysPiston: true
+# Check under Sign
+CheckUnderSign: true
 
 #==================#
 #   DO NOT TOUCH   #

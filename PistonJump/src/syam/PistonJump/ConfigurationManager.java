@@ -46,6 +46,7 @@ public class ConfigurationManager {
 	/* Basic Configs */
 	public boolean ignorePermission = new Boolean(false);
 	public boolean enableSidewaysPiston = new Boolean(true);
+	public boolean checkUnderSign = new Boolean(true);
 
 	// 設定ここまで
 
@@ -100,6 +101,7 @@ public class ConfigurationManager {
 		/* Basic Config */
 		ignorePermission = plugin.getConfig().getBoolean("IgnorePermission", false);
 		enableSidewaysPiston = plugin.getConfig().getBoolean("EnableSidewaysPiston", true);
+		checkUnderSign = plugin.getConfig().getBoolean("CheckUnderSign", true);
 	}
 
 	/**
