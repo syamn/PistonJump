@@ -1,4 +1,4 @@
-# PistonJump Configuration file for version 0.3
+# PistonJump Configuration file for version 0.4
 # @author syam <admin@sakura-server.net>
 # BukkitDev: http://dev.bukkit.org/server-mods/pistonjump/
 
@@ -18,4 +18,4 @@ DefaultPower: 3.0
 #   DO NOT TOUCH   #
 #==================#
 # Do not touch this option! It is a check if you are running the recent configuration version
-version: 0.3
+version: 0.4
