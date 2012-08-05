@@ -1,4 +1,4 @@
-package syam.PistonJump;
+package syam.PistonJump.Util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -13,6 +13,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import syam.PistonJump.PistonJump;
 
 /*     Copyright (C) 2012  syamn <admin@sakura-server.net>
  *

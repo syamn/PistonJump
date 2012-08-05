@@ -7,6 +7,8 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import syam.PistonJump.Util.Metrics;
+
 /*     Copyright (C) 2012  syamn <admin@sakura-server.net>
  *
  *     This program is free software: you can redistribute it and/or modify

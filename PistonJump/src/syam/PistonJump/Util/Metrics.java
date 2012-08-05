@@ -1,4 +1,4 @@
-package syam.PistonJump;
+package syam.PistonJump.Util;
 
 /*
  * Copyright 2011 Tyler Blair. All rights reserved.

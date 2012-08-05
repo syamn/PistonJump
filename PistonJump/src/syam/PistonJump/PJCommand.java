@@ -6,6 +6,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import syam.PistonJump.Util.Actions;
+
 /*     Copyright (C) 2012  syamn <admin@sakura-server.net>
  *
  *     This program is free software: you can redistribute it and/or modify
