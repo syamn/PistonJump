@@ -11,6 +11,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -195,4 +199,33 @@ public class Actions {
 	/****************************************/
 	// PistonJump
 	/****************************************/
+
+	// 真下の看板をチェックして強さを決定する
+	public static double checkUnderSign(Block pistonBlock){
+		// 真下ブロックをチェック
+		BlockState checkBlock = pistonBlock.getRelative(BlockFace.DOWN, 1).getState();
+		if (checkBlock instanceof Sign){
+			Sign sign = (Sign)checkBlock;
+			// 1行目が &a[PistonJump] の看板
+			if (sign.getLine(0).equalsIgnoreCase("§a[PistonJump]")){
+				// 2行目がdoubleにパースできなければ -1.0を返す
+				String line2 = sign.getLine(1).trim();
+				if (!Util.isDouble(line2)){
+					return -1.0D;
+				}else{
+					double d = Double.parseDouble(line2);
+					// 入力値の許容チェック
+					if (d < 0.0D){ // 負数は0に設定して飛ばさない
+						d = 0.0D;
+					}
+
+					// チェックおわり
+					return d;
+				}
+			}
+		}
+
+		// エラーは-1.0を返す
+		return -1.0D;
+	}
 }

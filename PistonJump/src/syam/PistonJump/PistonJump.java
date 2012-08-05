@@ -7,6 +7,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import syam.PistonJump.Listener.BlockListener;
 import syam.PistonJump.Util.Metrics;
 
 /*     Copyright (C) 2012  syamn <admin@sakura-server.net>
