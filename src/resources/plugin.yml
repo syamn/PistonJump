@@ -1,0 +1,23 @@
+##  Plugin Information  ##
+name: PistonJump
+version: version-number-unknown
+main: syam.PistonJump.PistonJump
+description: Jump higher on the piston!
+website: http://sakura-server.net/
+##  Original Author     ##
+author: syam
+commands:
+    pistonjump:
+      usage: /pistonjump - to see the help
+      aliases: [pj, piston]
+      description: To see the PistonJump help.
+permissions:
+    pistonjump.jump:
+        default: op
+        description: Can jump higher on the piston!
+    pistonjump.placesign:
+        default: op
+        description: Can place PistonJump sign!
+    pistonjump.reload:
+        default: op
+        description: Can reload configuration!

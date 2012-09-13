@@ -1,0 +1,21 @@
+# PistonJump Configuration file for version 0.4
+# @author syam <admin@sakura-server.net>
+# BukkitDev: http://dev.bukkit.org/server-mods/pistonjump/
+
+#==================#
+#   Basic Config   #
+#==================#
+# Ignore Permissions (pistonjump.jump: true)
+IgnorePermission: false
+# Enable sideways Pistons
+EnableSidewaysPiston: true
+# If it is false, ignore the sign under the piston.
+CheckSign: true
+# It's default injection power. If set to 0, must use the sign to jump.
+DefaultPower: 3.0
+
+#==================#
+#   DO NOT TOUCH   #
+#==================#
+# Do not touch this option! It is a check if you are running the recent configuration version
+version: 0.4
