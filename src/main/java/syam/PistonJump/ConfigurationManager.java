@@ -123,8 +123,15 @@ public class ConfigurationManager {
 	private void checkver(final double ver){
 		double configVersion = ver;
 		double nowVersion = 0.1D;
+
+		String versionString = plugin.getDescription().getVersion();
 		try{
-			nowVersion = Double.parseDouble(plugin.getDescription().getVersion());
+			// Support maven and Jenkins build number
+			int index = versionString.indexOf("-");
+			if (index > 0){
+				versionString = versionString.substring(0, index);
+			}
+			nowVersion = Double.parseDouble(versionString);
 		}catch (NumberFormatException ex){
 			log.warning(logPrefix+ "Cannot parse version string!");
 		}
