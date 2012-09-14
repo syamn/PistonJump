@@ -94,21 +94,8 @@ public class PistonListener implements Listener {
 
 			Location headBlockLoc = headBlock.getLocation().add(0.5, 0.0, 0.5);
 
-
 			// ベクトル設定
-			//Vector dir = player.getVelocity();
-			Vector vect = null;
-			if (direction == BlockFace.UP) // 上方向
-				vect = new Vector(0, flyVector, 0);
-			//	vect = new Vector(dir.getX() * 3.0D, flyVector, dir.getZ() * 3.0D);
-			else if (direction == BlockFace.EAST) // 東向き→実際には北向き？ Z軸を負に
-				vect = new Vector(0, 0, -flyVector);
-			else if(direction == BlockFace.WEST) // 西向き→実際には南 Z軸を正に
-				vect = new Vector(0, 0, flyVector);
-			else if(direction == BlockFace.SOUTH) // 南向き→東 X軸を正に
-				vect = new Vector(flyVector, 0, 0);
-			else if(direction == BlockFace.NORTH) // 北向き→西 X軸を負に
-				vect = new Vector(-flyVector, 0, 0);
+			Vector vect = Actions.getEjectionVector(direction, flyVector);
 
 			// オンラインプレイヤーを走査
 			for (Player player : Bukkit.getServer().getOnlinePlayers()){
@@ -162,17 +149,7 @@ public class PistonListener implements Listener {
 			}
 
 			// ベクトル設定
-			Vector vect = null;
-			if (direction == BlockFace.UP) // 上方向
-				vect = new Vector(0, flyVector, 0);
-			else if (direction == BlockFace.EAST) // 東向き→実際には北向き？ Z軸を負に
-				vect = new Vector(0, 0, -flyVector);
-			else if(direction == BlockFace.WEST) // 西向き→実際には南 Z軸を正に
-				vect = new Vector(0, 0, flyVector);
-			else if(direction == BlockFace.SOUTH) // 南向き→東 X軸を正に
-				vect = new Vector(flyVector, 0, 0);
-			else if(direction == BlockFace.NORTH) // 北向き→西 X軸を負に
-				vect = new Vector(-flyVector, 0, 0);
+			Vector vect = Actions.getEjectionVector(direction, flyVector);
 
 			// スポーンさせる座標
 			Location loc = headBlock.getLocation().clone().add(0.5D, 1.5D, 0.5D);

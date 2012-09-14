@@ -17,6 +17,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import syam.PistonJump.PistonJump;
 
@@ -222,7 +223,6 @@ public class Actions {
 						d = 8.0D;
 					}
 
-
 					// チェックおわり
 					return d;
 				}
@@ -232,4 +232,30 @@ public class Actions {
 		// エラーは-1.0を返す
 		return -1.0D;
 	}
+
+	/**
+	 * ピストンの方向と強さを指定して適切なベクトルを返す
+	 * @param direction ピストンの方向
+	 * @param power 強さ
+	 * @return ベクトル
+	 */
+	public static Vector getEjectionVector(BlockFace direction, double power){
+		switch (direction){
+			case UP: // 上向き
+				return new Vector(0, power, 0);
+			case EAST: // 東向き →実際には北向き？ Z軸を負に
+				return new Vector(0, 0, -power);
+			case WEST: // 西向き→実際には南 Z軸を正に
+				return new Vector(0, 0, power);
+			case SOUTH: // 南向き→東 X軸を正に
+				return new Vector(power, 0, 0);
+			case NORTH: // 北向き→西 X軸を負に
+				return new Vector(-power, 0, 0);
+			case DOWN: // 下向き
+				return new Vector(0, -power, 0);
+			default:
+				return new Vector(0, 0, 0);
+		}
+	}
+
 }
