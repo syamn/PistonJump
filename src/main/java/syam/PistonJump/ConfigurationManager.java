@@ -110,6 +110,10 @@ public class ConfigurationManager {
 		playerCheckSign = plugin.getConfig().getBoolean("Player.CheckSign", true);
 		playerDefaultPower = plugin.getConfig().getDouble("Player.DefaultPower", 3.0D);
 		// Block
+		blockEnable = plugin.getConfig().getBoolean("Block.Enable", true);
+		blockEnableSidewaysPiston = plugin.getConfig().getBoolean("Block.EnableSidewaysPiston", true);
+		blockCheckSign = plugin.getConfig().getBoolean("Block.CheckSign", true);
+		blockDefaultPower = plugin.getConfig().getDouble("Block.DefaultPower", 0.0D);
 	}
 
 	/**
