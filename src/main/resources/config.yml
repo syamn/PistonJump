@@ -5,14 +5,22 @@
 #==================#
 #   Basic Config   #
 #==================#
+Player:
 # Ignore Permissions (pistonjump.jump: true)
-IgnorePermission: false
+  IgnorePermission: false
 # Enable sideways Pistons
-EnableSidewaysPiston: true
-# If it is false, ignore the sign under the piston.
-CheckSign: true
-# It's default injection power. If set to 0, must use the sign to jump.
-DefaultPower: 3.0
+  EnableSidewaysPiston: true
+# If it is false, ignore power sign under the piston.
+# (Max power is 8.0)
+  CheckSign: true
+# Default player injection power. If set to 0, must use the sign to jump.
+  DefaultPower: 3.0
+
+Block:
+  Enable: true
+  EnableSidewaysPiston: true
+  CheckSign: true
+  DefaultPower: 0.0
 
 #==================#
 #   DO NOT TOUCH   #

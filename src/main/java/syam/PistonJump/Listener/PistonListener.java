@@ -70,17 +70,17 @@ public class PistonListener implements Listener {
 		BlockFace direction = event.getDirection();
 		Block headBlock = block.getRelative(direction, 1); // ピストンが押された位置にあるブロック
 
-		// 押した先のブロックが空気(0:AIR)の場合
+		// 押した先が空気の場合
 		if (headBlock.getType() == Material.AIR){
-			double flyVector = plugin.getConfigs().defaultPower;
+			double flyVector = plugin.getConfigs().playerDefaultPower;
 
 			// 横向きのピストンでの動作が無効に設定されかつ、上向きでないピストンは何もしない
-			if (direction != BlockFace.UP && !plugin.getConfigs().enableSidewaysPiston){
+			if (direction != BlockFace.UP && !plugin.getConfigs().playerEnableSidewaysPiston){
 				return;
 			}
 
 			// 設定が有効ならば真下の看板をチェックする
-			if (plugin.getConfigs().checkSign && Actions.checkUnderSign(block) >= 0.0D){
+			if (plugin.getConfigs().playerCheckSign && Actions.checkUnderSign(block) >= 0.0D){
 				flyVector = Actions.checkUnderSign(block);
 			}
 
@@ -125,7 +125,7 @@ public class PistonListener implements Listener {
 				}
 
 				// 権限チェック
-				if (!plugin.getConfigs().ignorePermission && !player.hasPermission("pistonjump.jump")){
+				if (!plugin.getConfigs().playerIgnorePermission && !player.hasPermission("pistonjump.jump")){
 					continue;
 				}
 
@@ -134,17 +134,17 @@ public class PistonListener implements Listener {
 			}
 		}
 
-		// 押した先のブロックが砂(12:SAND)の場合
-		else if (headBlock.getType() == Material.SAND || headBlock.getType() == Material.GRAVEL){
+		// 押した先がブロックの場合
+		else{
 			// 上向きのピストンのみ対応
 			if (direction == BlockFace.UP){
-				double flyVector = plugin.getConfigs().defaultPower;
-				if (plugin.getConfigs().checkSign && Actions.checkUnderSign(block) >= 0.0D){
+				double flyVector = plugin.getConfigs().playerDefaultPower;
+				if (plugin.getConfigs().playerCheckSign && Actions.checkUnderSign(block) >= 0.0D){
 					flyVector = Actions.checkUnderSign(block);
 				}
 
 				// スポーンさせる座標
-				Location loc = headBlock.getLocation().clone().add(0.5D, 1.5D, 0.5D); // Y=1.5だと丁度着地済みになるためエンティティ化しない
+				Location loc = headBlock.getLocation().clone().add(0.5D, 1.5D, 0.5D);
 
 				// エンティティ化
 				//FallingSand fSand = headBlock.getWorld().spawn(headBlock.getLocation().clone().add(0.5D, 0.5D, 0.5D), FallingSand.class);

@@ -42,10 +42,16 @@ public class ConfigurationManager {
 
 	// 設定項目
 	/* Basic Configs */
-	public boolean ignorePermission = new Boolean(false);
-	public boolean enableSidewaysPiston = new Boolean(true);
-	public boolean checkSign = new Boolean(true);
-	public double defaultPower = new Double(3.0D);
+	// Player
+	public boolean playerIgnorePermission = new Boolean(false);
+	public boolean playerEnableSidewaysPiston = new Boolean(true);
+	public boolean playerCheckSign = new Boolean(true);
+	public double playerDefaultPower = new Double(3.0D);
+	// Block
+	public boolean blockEnable = new Boolean(true);
+	public boolean blockEnableSidewaysPiston = new Boolean(true);
+	public boolean blockCheckSign = new Boolean(true);
+	public double blockDefaultPower = new Double(0.0D);
 
 	// 設定ここまで
 
@@ -98,10 +104,12 @@ public class ConfigurationManager {
 
 		// 項目取得
 		/* Basic Config */
-		ignorePermission = plugin.getConfig().getBoolean("IgnorePermission", false);
-		enableSidewaysPiston = plugin.getConfig().getBoolean("EnableSidewaysPiston", true);
-		checkSign = plugin.getConfig().getBoolean("CheckSign", true);
-		defaultPower = plugin.getConfig().getDouble("DefaultPower", 3.0D);
+		// Player
+		playerIgnorePermission = plugin.getConfig().getBoolean("Player.IgnorePermission", false);
+		playerEnableSidewaysPiston = plugin.getConfig().getBoolean("Player.EnableSidewaysPiston", true);
+		playerCheckSign = plugin.getConfig().getBoolean("Player.CheckSign", true);
+		playerDefaultPower = plugin.getConfig().getDouble("Player.DefaultPower", 3.0D);
+		// Block
 	}
 
 	/**
