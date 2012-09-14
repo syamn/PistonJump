@@ -136,25 +136,55 @@ public class PistonListener implements Listener {
 
 		// 押した先がブロックの場合
 		else{
-			// 上向きのピストンのみ対応
-			if (direction == BlockFace.UP){
-				double flyVector = plugin.getConfigs().playerDefaultPower;
-				if (plugin.getConfigs().playerCheckSign && Actions.checkUnderSign(block) >= 0.0D){
-					flyVector = Actions.checkUnderSign(block);
-				}
-
-				// スポーンさせる座標
-				Location loc = headBlock.getLocation().clone().add(0.5D, 1.5D, 0.5D);
-
-				// エンティティ化
-				//FallingSand fSand = headBlock.getWorld().spawn(headBlock.getLocation().clone().add(0.5D, 0.5D, 0.5D), FallingSand.class);
-				FallingBlock fBlock = headBlock.getWorld().spawnFallingBlock(loc, headBlock.getType(), (byte) 0);
-				Vector vect = new Vector(0.0D, flyVector, 0.0D);
-				fBlock.setVelocity(vect);
-
-				headBlock.setTypeIdAndData(Material.AIR.getId(), (byte)0, true);
-				//headBlock.getWorld().refreshChunk(headBlock.getX(), headBlock.getZ());
+			// Check Block.Enable config
+			if (!plugin.getConfigs().blockEnable){
+				return;
 			}
+
+			double flyVector = plugin.getConfigs().blockDefaultPower;
+
+			// 横向きのピストンでの動作が無効に設定されかつ、上向きでないピストンは何もしない
+			if (direction != BlockFace.UP && !plugin.getConfigs().blockEnableSidewaysPiston){
+				return;
+			}
+
+			// 設定が有効ならば真下の看板をチェックする
+			if (plugin.getConfigs().blockCheckSign && Actions.checkUnderSign(block) >= 0.0D){
+				flyVector = Actions.checkUnderSign(block);
+			}
+
+			// 飛ばす強さチェック
+			if (flyVector <= 0.0D){
+				return;
+			}
+			else if (flyVector > 8.0D){
+				flyVector = 8.0D;
+			}
+
+			// ベクトル設定
+			Vector vect = null;
+			if (direction == BlockFace.UP) // 上方向
+				vect = new Vector(0, flyVector, 0);
+			else if (direction == BlockFace.EAST) // 東向き→実際には北向き？ Z軸を負に
+				vect = new Vector(0, 0, -flyVector);
+			else if(direction == BlockFace.WEST) // 西向き→実際には南 Z軸を正に
+				vect = new Vector(0, 0, flyVector);
+			else if(direction == BlockFace.SOUTH) // 南向き→東 X軸を正に
+				vect = new Vector(flyVector, 0, 0);
+			else if(direction == BlockFace.NORTH) // 北向き→西 X軸を負に
+				vect = new Vector(-flyVector, 0, 0);
+
+			// スポーンさせる座標
+			Location loc = headBlock.getLocation().clone().add(0.5D, 1.5D, 0.5D);
+
+			// エンティティ化
+			//FallingSand fSand = headBlock.getWorld().spawn(headBlock.getLocation().clone().add(0.5D, 0.5D, 0.5D), FallingSand.class);
+			FallingBlock fBlock = headBlock.getWorld().spawnFallingBlock(loc, headBlock.getType(), (byte) 0);
+			fBlock.setVelocity(vect);
+
+			// 飛ばしたブロックを消す →不具合で正常にクライアントがアップデートされない
+			// Bukkitに報告済み Issue:BUKKIT-2514 :: https://bukkit.atlassian.net/browse/BUKKIT-2514
+			headBlock.setTypeIdAndData(Material.AIR.getId(), (byte)0, true);
 		}
 	}
 }
