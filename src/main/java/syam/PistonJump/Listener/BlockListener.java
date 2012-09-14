@@ -76,9 +76,15 @@ public class BlockListener implements Listener {
 					boolean err = false; // エラーフラグ
 
 					String line2s = event.getLine(1).trim();
-					if (!Util.isDouble(line2s)){
-						Actions.message(null, player, "&cThe 2nd line must be numeric (double)!"); err = true;
-					}else{
+					if (line2s.length() <= 0){
+						Actions.message(null, player, "&aThe 2nd line is empty! Use default player ejection power!");
+						event.setLine(1, String.format("%.1f", plugin.getConfigs().playerDefaultPower));
+					}
+					else if (!Util.isDouble(line2s)){
+						Actions.message(null, player, "&cThe 2nd line must be numeric (double)!");
+						err = true;
+					}
+					else{
 						Double line2d = Double.parseDouble(line2s);
 						if (line2d < 0.0D){
 							Actions.message(null, player, "&cThe 2nd numeric cannot be negative! Changed to 0.0!");
