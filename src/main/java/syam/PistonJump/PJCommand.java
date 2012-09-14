@@ -57,7 +57,7 @@ public class PJCommand implements CommandExecutor{
 		Actions.message(sender, null, "&c===================================");
 		Actions.message(sender, null, "&bPistonJump Plugin version &3%version &bby syamn");
 		Actions.message(sender, null, " &b<>&f = required, &b[]&f = optional");
-		Actions.message(sender, null, " /pistonjump reload (/pj r)");
+		Actions.message(sender, null, " /pistonjump reload");
 		Actions.message(sender, null, "   &7- Reload configs from config.yml");
 		Actions.message(sender, null, "&c===================================");
 

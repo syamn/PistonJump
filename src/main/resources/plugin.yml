@@ -9,7 +9,7 @@ author: syam
 commands:
     pistonjump:
       usage: /pistonjump - to see the help
-      aliases: [pj, piston]
+      aliases: [piston]
       description: To see the PistonJump help.
 permissions:
     pistonjump.jump:
