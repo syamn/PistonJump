@@ -8,6 +8,8 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import syam.PistonJump.Listener.BlockListener;
+import syam.PistonJump.Listener.BlockListener;
+import syam.PistonJump.Listener.PistonListener;
 import syam.PistonJump.Util.Metrics;
 
 /*     Copyright (C) 2012  syamn <admin@sakura-server.net>
@@ -37,7 +39,8 @@ public class PistonJump extends JavaPlugin{
 	public final static String msgPrefix = "&c[PistonJump] &f";
 
 	// Listener
-	private final BlockListener blockListener = new BlockListener(this);
+	private final BlockListener blockListener = new BlockListener(this); // new blockListener
+	private final PistonListener pistonListener = new PistonListener(this);
 
 	// Private classes
 	private ConfigurationManager config;
@@ -67,6 +70,7 @@ public class PistonJump extends JavaPlugin{
 
 		// イベントを登録
 		pm.registerEvents(blockListener, this);
+		pm.registerEvents(pistonListener, this);
 
 		// コマンド登録
 		getServer().getPluginCommand("pistonjump").setExecutor(new PJCommand(this));
