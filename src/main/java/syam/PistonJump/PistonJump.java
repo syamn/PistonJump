@@ -8,7 +8,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import syam.PistonJump.Listener.BlockListener;
-import syam.PistonJump.Listener.BlockListener;
 import syam.PistonJump.Listener.PistonListener;
 import syam.PistonJump.Util.Metrics;
 

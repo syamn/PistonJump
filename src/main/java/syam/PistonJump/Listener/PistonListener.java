@@ -6,17 +6,11 @@ package syam.PistonJump.Listener;
 
 import java.util.logging.Logger;
 
-import net.minecraft.server.Packet51MapChunk;
-import net.minecraft.server.Packet53BlockChange;
-import net.minecraft.server.World;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -123,6 +117,11 @@ public class PistonListener implements Listener {
 
 		// 押した先がブロックの場合
 		else{
+			// Check Block
+			if (headBlock.isLiquid() || headBlock.getType().equals(Material.FIRE)){
+				return;
+			}
+
 			// Check Block.Enable config
 			if (!plugin.getConfigs().blockEnable){
 				return;
@@ -152,11 +151,11 @@ public class PistonListener implements Listener {
 			Vector vect = Actions.getEjectionVector(direction, flyVector);
 
 			// スポーンさせる座標
-			Location loc = headBlock.getLocation().clone().add(0.5D, 1.5D, 0.5D);
+			Location loc = headBlock.getLocation().clone().add(0.5D, 1.0D, 0.5D);
 
 			// エンティティ化
 			//FallingSand fSand = headBlock.getWorld().spawn(headBlock.getLocation().clone().add(0.5D, 0.5D, 0.5D), FallingSand.class);
-			FallingBlock fBlock = headBlock.getWorld().spawnFallingBlock(loc, headBlock.getType(), (byte) 0);
+			FallingBlock fBlock = headBlock.getWorld().spawnFallingBlock(loc, headBlock.getType(), headBlock.getData());
 			fBlock.setVelocity(vect);
 
 			// 飛ばしたブロックを消す →不具合で正常にクライアントがアップデートされない
