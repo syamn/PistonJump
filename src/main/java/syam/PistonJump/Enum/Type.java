@@ -39,6 +39,10 @@ public enum Type {
 		this.plural = plural;
 	}
 
+	public String getName(){
+		return this.getPlural();
+	}
+
 	/**
 	 * 複数形名称を取得
 	 * @return plural
