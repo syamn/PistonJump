@@ -4,6 +4,7 @@
  */
 package syam.PistonJump.Listener;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -11,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -86,32 +88,26 @@ public class PistonListener implements Listener {
 				flyVector = 8.0D;
 			}
 
+
 			Location headBlockLoc = headBlock.getLocation().add(0.5, 0.0, 0.5);
 
 			// ベクトル設定
 			Vector vect = Actions.getEjectionVector(direction, flyVector);
 
-			// オンラインプレイヤーを走査
-			for (Player player : Bukkit.getServer().getOnlinePlayers()){
-				// 別ワールドを除外
-				Location playerLoc = player.getLocation();
-				if (playerLoc.getWorld() != headBlockLoc.getWorld()){
+			for (Entity entity : headBlockLoc.getWorld().getEntities()){
+				if (entity.getLocation().distance(headBlockLoc) >= 1.0){
 					continue;
 				}
 
-				// ピストンの上に居ないプレイヤーを除外
-				double distance = playerLoc.distance(headBlockLoc);
-				if (distance >= 1.0){
-					continue;
+				if (entity instanceof Player){
+					// check permission
+					if (!plugin.getConfigs().playerIgnorePermission && !((Player) entity).hasPermission("pistonjump.jump")){
+						continue;
+					}
 				}
 
-				// 権限チェック
-				if (!plugin.getConfigs().playerIgnorePermission && !player.hasPermission("pistonjump.jump")){
-					continue;
-				}
-
-				player.teleport(playerLoc.add(0, 0.5, 0), TeleportCause.PLUGIN);
-				player.setVelocity(vect); // 飛ばす
+				entity.teleport(entity.getLocation().add(0D, 0.5D, 0D), TeleportCause.PLUGIN);
+				entity.setVelocity(vect);
 			}
 		}
 
