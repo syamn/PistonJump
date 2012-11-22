@@ -114,8 +114,16 @@ public class PistonListener implements Listener {
 		// 押した先がブロックの場合
 		else{
 			// Check Block
-			if (headBlock.isLiquid() || headBlock.getType().equals(Material.FIRE)){
+			if (headBlock.isLiquid()){
 				return;
+			}
+			switch (headBlock.getType()){
+				case FIRE:
+				case DIODE_BLOCK_OFF:
+				case DIODE_BLOCK_ON:
+					return;
+				default:
+					break;
 			}
 
 			// Check Block.Enable config
