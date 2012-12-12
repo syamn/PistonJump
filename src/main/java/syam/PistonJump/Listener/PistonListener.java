@@ -121,6 +121,10 @@ public class PistonListener implements Listener {
 				case FIRE:
 				case DIODE_BLOCK_OFF:
 				case DIODE_BLOCK_ON:
+				case CROPS:
+				case REDSTONE_WIRE:
+				case PUMPKIN_STEM:
+				case MELON_STEM:
 					return;
 				default:
 					break;
