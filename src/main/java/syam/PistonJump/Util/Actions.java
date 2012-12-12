@@ -244,13 +244,13 @@ public class Actions {
 			case UP: // 上向き
 				return new Vector(0, power, 0);
 			case EAST: // 東向き →実際には北向き？ Z軸を負に
-				return new Vector(0, 0, -power);
-			case WEST: // 西向き→実際には南 Z軸を正に
-				return new Vector(0, 0, power);
-			case SOUTH: // 南向き→東 X軸を正に
 				return new Vector(power, 0, 0);
-			case NORTH: // 北向き→西 X軸を負に
+			case WEST: // 西向き→実際には南 Z軸を正に
 				return new Vector(-power, 0, 0);
+			case SOUTH: // 南向き→東 X軸を正に
+				return new Vector(0, 0, power);
+			case NORTH: // 北向き→西 X軸を負に
+				return new Vector(0, 0, -power);
 			case DOWN: // 下向き
 				return new Vector(0, -power, 0);
 			default:
